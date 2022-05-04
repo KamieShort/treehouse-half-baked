@@ -22,9 +22,11 @@ export default function Login() {
         formState.email,
         formState.password
       );
-      if (loginWasSuccessful) history.replace('/');
+      if (loginWasSuccessful) {
+        history.replace(from);
+      }
     } catch (error) {
-      setError('Incorrect Login Info');
+      setError(error.message);
     }
   };
 
@@ -40,9 +42,22 @@ export default function Login() {
     <>
       <h3>You must log in to view the page at {from.pathname}</h3>
       <form onSubmit={handleLogin} className={styles.loginForm}>
-        <label>Email</label>
-        <input id="email" name="email" type="email" /> <label>Password</label>
-        <input id="password" name="password" type="password" />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={formState.email}
+          onChange={(e) => handleFormChange(e)}
+        />{' '}
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={formState.password}
+          onChange={(e) => handleFormChange(e)}
+        />
         <button type="submit" aria-label="Sign In">
           Sign in
         </button>

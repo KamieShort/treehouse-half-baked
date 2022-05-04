@@ -16,34 +16,33 @@ export default function Login() {
   const { from } = location.state || { from: { pathname: '/' } };
 
   const handleLogin = (event) => {
-    event.preventDefault();
-    const loginWasSuccessful = auth.login(formState.email, formState.password);
-
-    // TODO: If login was unsuccessful, set an error with a message
-    // to display to the user that their login failed.
-    //
-    // If login was successful, use the history hook
-    // from React Router to replace the current URL with the URL
-    // we need to redirect to.
-    // See https://v5.reactrouter.com/web/api/history for the appropriate method to use
+    try {
+      event.preventDefault();
+      const loginWasSuccessful = auth.login(
+        formState.email,
+        formState.password
+      );
+      if (loginWasSuccessful) history.replace('/');
+    } catch (error) {
+      setError('Incorrect Login Info');
+    }
   };
+
+  // TODO: If login was unsuccessful, set an error with a message
+  // to display to the user that their login failed.
+  //
+  // If login was successful, use the history hook
+  // from React Router to replace the current URL with the URL
+  // we need to redirect to.
+  // See https://v5.reactrouter.com/web/api/history for the appropriate method to use
 
   return (
     <>
       <h3>You must log in to view the page at {from.pathname}</h3>
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <label>Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-        />{' '}
-        <label>Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-        />
+        <input id="email" name="email" type="email" /> <label>Password</label>
+        <input id="password" name="password" type="password" />
         <button type="submit" aria-label="Sign In">
           Sign in
         </button>
